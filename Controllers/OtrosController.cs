@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,7 @@ namespace TiendaMusica.Controllers
         }
 
         // GET: Otros/Create
+        [Authorize(Roles="Admin, Empleado")]
         public IActionResult Create()
         {
             return View();
@@ -67,6 +69,7 @@ namespace TiendaMusica.Controllers
         }
 
         // GET: Otros/Edit/5
+        [Authorize(Roles="Admin, Empleado")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -118,6 +121,7 @@ namespace TiendaMusica.Controllers
         }
 
         // GET: Otros/Delete/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)

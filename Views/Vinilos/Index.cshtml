@@ -1,23 +1,21 @@
 ﻿@model IEnumerable<TiendaMusica.Models.Vinilo>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Vinilos";
 }
 
-<h1>Index</h1>
+<h1>Vinilos</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if ( User.Identity.IsAuthenticated ){
+    if ( User.IsInRole("Admin") || User.IsInRole("Empleado") ){
+        <p>@Html.ActionLink("Agregar un nuevo vinilo", "Create")</p>
+        }
+    }
+    <!--<a asp-action="Create">Agregar nuevo vinilo</a>-->
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Sello)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CodigoSello)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Artista)
             </th>
@@ -25,31 +23,16 @@
                 @Html.DisplayNameFor(model => model.Titulo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pais)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Pulgadas)
+                @Html.DisplayNameFor(model => model.Sello)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RPM)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaPublicacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estilo)
+                @Html.DisplayNameFor(model => model.CodigoSello)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Precio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
             </th>
             <th></th>
         </tr>
@@ -58,49 +41,42 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Sello)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CodigoSello)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Artista)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Titulo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Pais)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Tipo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Pulgadas)
+                @Html.DisplayFor(modelItem => item.Sello)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RPM)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaPublicacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estilo)
+                @Html.DisplayFor(modelItem => item.CodigoSello)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
+            
+            @if ( User.Identity.IsAuthenticated ){
+                if ( User.IsInRole("Admin") || User.IsInRole("Empleado") ){
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Detalles</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Eliminar</a>
+                    </td>
+                } else {       
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.ID">Detalles</a>
+                        </td>
+                        }
+            } else {       
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.ID">Detalles</a>
+                    </td>
+                    }
+                    
         </tr>
 }
     </tbody>
